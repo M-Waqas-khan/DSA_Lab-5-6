@@ -1,68 +1,67 @@
 #include <iostream>
 using namespace std;
-struct Node 
+struct Node
 {
     int data;
-    Node* next;
+    Node* next; 
 };
-void insertAtEnd(Node** head, int newData) 
+void insertAtEnd(Node** head, int newData)
 {
     Node* newNode = new Node();
     newNode->data = newData;
-    newNode->next = NULL;
-    if (*head == NULL) 
+    newNode->next  = NULL;
+    if(*head == NULL)
     {
         *head = newNode;
-    } 
-    else 
-    {
-        Node* temp = *head;
-        while (temp->next != NULL) 
-        {
-            temp = temp->next;
-        }
-        temp->next = newNode;
+        return;
     }
-}
-// Find the middle of the linked list using slow and fast pointers
-void findMiddle(Node* head) 
+Node* last = *head;
+while(last->next != NULL)
 {
-    Node* slow = head;
-    Node* fast = head;
-    while (fast != NULL && fast->next != NULL) 
-    {
-        slow = slow->next;         // Move slow by 1
-        fast = fast->next->next;   // Move fast by 2
-    }
-    cout << "Middle element: " << slow->data << endl;
+    last = last->next;
 }
-// Print the linked list
-void printList(Node* node) 
+    last->next = newNode;
+}
+void reverseList(Node** head)
 {
-    while (node != NULL) 
-    {
-        cout << node->data << " -> ";
-        node = node->next;
-    }
-    cout << "NULL" << endl;
+  Node* prev = NULL;
+  Node* current = *head;
+  Node* next = NULL;
+  while(current != NULL)
+  {
+    next = current->next;
+    current->next = prev;
+    prev = current;
+    current = next;
+    *head = prev;
+  }
+  }
+void printList(Node* node)
+{
+   cout << " linked list elements: ";
+   while( node != NULL)
+   {
+      cout  << node->data << " -> ";
+      node = node -> next;
+   }
+   cout << "NULL" <<endl;
 }
-int main() {
+int main()
+{
     Node* head = NULL;
-    int n, newData;
-    // Input the number of nodes
-    cout << "Enter the number of nodes: ";
-    cin >> n;
-    // Insert nodes
-    for (int i = 0; i < n; i++) {
-        cout << "Enter value for "<<i<<" node: ";
-        cin >> newData;
-        insertAtEnd(&head, newData);
+    int n, value;
+    cout<<" How many values do yo want to insertr in this list: ";
+    cin>>n;
+    for( int i=0; i<n; i++)
+    {
+        cout << " Enter value "<< i+1 <<" : ";
+        cin >> value;
+        insertAtEnd(&head, value);
     }
-    // Print the list
-    cout << "The linked list is: ";
+    cout << " Before reversing Linked list is: ";
     printList(head);
-    // Find and print the middle element
-    cout<< "The Middle Element is: ";
-    findMiddle(head);
+
+    reverseList(&head);
+    printList(head);
     return 0;
 }
